@@ -1,1 +1,3 @@
 # EdhCollection
+
+Hobby project
