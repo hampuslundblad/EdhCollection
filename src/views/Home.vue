@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main class="ff-sans-normal">
         <h1> Welcome to EdhCollection </h1>
         <h3> Input your username to see your collection</h3>
         <div class="search-container">
