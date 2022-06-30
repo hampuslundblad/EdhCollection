@@ -2,13 +2,16 @@
     <div class="popup">
         <div class="popup-inner">
             <slot />
+            <CardSearch/>
             <button class="popup-close" @click="togglePopup() ">Close</button>
         </div>
     </div>
 </template>
 <script>
+import CardSearch from "./CardSearch.vue";
 export default{
-    props : ['togglePopup']
+    props: ["togglePopup"],
+    components: { CardSearch }
 }
 </script>
 <style scoped>
@@ -23,9 +26,12 @@ export default{
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .popup-inner {
+    display:flex;
+    flex-direction: column;
     background:#FFF;
     padding: 32px;
 }

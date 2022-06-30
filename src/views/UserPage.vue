@@ -7,12 +7,14 @@
         <CardSearchPopup v-if="popupTrigger.buttonTrigger" :togglePopup="() => togglePopup('buttonTrigger')">
             <h2> Search for a card </h2>
         </CardSearchPopup>
+        <CardCollectionTable/>
     </main>
 
 </template>
 <script setup>
 import CardSearchPopup from '../components/CardSearchPopup.vue'
 import {ref } from 'vue'
+import CardCollectionTable from '../components/CardCollectionTable.vue';
 
 const popupTrigger = ref({
     buttonTrigger : false,
