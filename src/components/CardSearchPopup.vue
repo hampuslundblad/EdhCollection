@@ -2,16 +2,16 @@
     <div class="popup">
         <div class="popup-inner">
             <slot />
-            <CardSearch/>
+            <CardSearchInput/>
             <button class="popup-close" @click="togglePopup() ">Close</button>
         </div>
     </div>
 </template>
 <script>
-import CardSearch from "./CardSearch.vue";
+import CardSearchInput from "./CardSearchInput.vue";
 export default{
     props: ["togglePopup"],
-    components: { CardSearch }
+    components: { CardSearchInput }
 }
 </script>
 <style scoped>
