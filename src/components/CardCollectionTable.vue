@@ -1,5 +1,5 @@
 <template>
-<QuickAddCardInput/>
+<QuickAddCardInput @update:cardName = "addNewRow"/>
   <button @click="addNewRow">Add card to table</button>
   <table id="card">
     <tr>
@@ -20,6 +20,8 @@
 import { ref } from "vue";
 import CardSearchPopupButton from "./CardSearchPopupButton.vue";
 import QuickAddCardInput from "./QuickAddCardInput.vue";
+const cardName = ref('')
+
 const invoice_data = ref([
   {
     card_name: "Muldrotha, the Gravetide",
@@ -28,14 +30,13 @@ const invoice_data = ref([
     set: "Dominaria",
   },
 ]);
-const addNewRow = (card_name, quantity, mcm_price, set) => {
+const addNewRow = (cardName, price) => {
   invoice_data.value.push({
-    card_name: card_name,
-    quantity: quantity,
-    mcm_price: mcm_price,
-    set: set,
+    card_name: cardName,
+    quantity: 1,
+    mcm_price: price + " €",
+    set: "Kaladesh",
   });
-  console.log(invoice_data);
 };
 </script>
 <style scoped>
