@@ -88,6 +88,13 @@ select {
 /* Utility classes  */
 /*------------------*/
 
+.light {
+  color: var(--clr-light)
+}
+.dark {
+  color: var(--clr-dark)
+}
+
 .flex {
   display: flex;
   gap: var(--gap)
