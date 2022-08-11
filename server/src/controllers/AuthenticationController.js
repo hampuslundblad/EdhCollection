@@ -35,7 +35,7 @@ module.exports = {
         },
       });
       if (!user) {
-        res.status(403).send({
+        return res.status(403).send({
           error: "The login information was incorrect",
         });
       }
@@ -45,13 +45,13 @@ module.exports = {
         return res.status(403).send({
           error: "The login information was incorrect",
         });
-      } else {
-        const userJson = user.toJSON();
-        res.send({
-          user: userJson,
-          token: jwtSignUser(userJson),
-        });
       }
+
+      const userJson = user.toJSON();
+      return res.send({
+        user: userJson,
+        token: jwtSignUser(userJson),
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send({

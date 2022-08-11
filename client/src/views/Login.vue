@@ -1,17 +1,20 @@
 <template>
-  <div>
-    <h1>login</h1>
-    <input type="email" name="email" placeholder="email" v-model="email" />
-    <br />
-    <input
-      type="password"
-      name="password"
-      placeholder="password"
-      v-model="password"
-    />
-    <br />
-    <span class="error">{{ error }}</span>
-    <button @click="login">login</button>
+  <div class="layout">
+    <div class="login-container">
+      <h1 class="ff-serif">Login</h1>
+      <input type="email" name="email" placeholder="email" v-model="email" />
+      <br />
+      <input
+        type="password"
+        name="password"
+        placeholder="password"
+        v-model="password"
+      />
+      <br />
+      <span class="error">{{ error }}</span>
+      <button @click="login">Login</button>
+    </div>
+    <router-link to="Register"> <button>Register</button></router-link>
   </div>
 </template>
 <script setup>
@@ -34,7 +37,16 @@ async function login() {
 }
 </script>
 <style scoped>
+@import "../assets/base.css";
 .error {
   color: red;
+}
+.login-btn {
+}
+.login-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 30%;
 }
 </style>

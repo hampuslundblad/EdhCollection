@@ -1,4 +1,3 @@
-
 /*------------------------ */
 /*    Custom properties     */
 /*------------------------ */
@@ -9,7 +8,7 @@
   --clr-light: #fff;
   --clr-green: #04aa6d;
   --clr-grey: #333333;
-  --clr-white: #FFF;
+  --clr-white: #fff;
   /* font sizes */
   --fs-900: 9.375rem;
   --fs-800: 6.25rem;
@@ -53,7 +52,6 @@ picture {
 body {
   line-height: 1.5;
   min-height: 100vh;
-
 }
 
 /* Make images easier to work with */
@@ -72,8 +70,7 @@ select {
 }
 
 /* Remove animations for those who have turned them off */
-@media (prefers-reduced-motion:reduce) {
-
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
@@ -88,22 +85,31 @@ select {
 /* Utility classes  */
 /*------------------*/
 
+.primary-btn {
+  border: none;
+  background-color: #f9a300;
+  border-radius: 3px;
+}
+
+.layout {
+  display: flex;
+  justify-content: center;
+}
 .light {
-  color: var(--clr-light)
+  color: var(--clr-light);
 }
 .dark {
-  color: var(--clr-dark)
+  color: var(--clr-dark);
 }
 
 .flex {
   display: flex;
-  gap: var(--gap)
-
+  gap: var(--gap);
 }
 
 .grid {
   display: grid;
-  gap: var(--gap)
+  gap: var(--gap);
 }
 
 .container {
@@ -112,34 +118,64 @@ select {
   margin-inline: auto;
 }
 
-.ff-serif {font-family:var(--ff-sans-serif)}
-.ff-sans-cond{font-family:var(--ff-sans-cond)}
-.ff-sans-normal{font-family: var(--ff-sans-normal)}
+.ff-serif {
+  font-family: var(--ff-sans-serif);
+}
+.ff-sans-cond {
+  font-family: var(--ff-sans-cond);
+}
+.ff-sans-normal {
+  font-family: var(--ff-sans-normal);
+}
 
-.letter-spacing-1 {letter-spacing: 4.75px;}
-.letter-spacing-2 {letter-spacing: 2.7px;}
-.letter-spacing-3 {letter-spacing: 2.35;}
+.letter-spacing-1 {
+  letter-spacing: 4.75px;
+}
+.letter-spacing-2 {
+  letter-spacing: 2.7px;
+}
+.letter-spacing-3 {
+  letter-spacing: 2.35;
+}
 
-.uppercase {text-transform: uppercase;}
+.uppercase {
+  text-transform: uppercase;
+}
 
-.fs-900 {font-size : var(--fs-900);}
-.fs-800 {font-size : var(--fs-800);}
-.fs-700 {font-size : var(--fs-700);}
-.fs-600 {font-size : var(--fs-600);}
-.fs-500 {font-size : var(--fs-500);}
-.fs-400 {font-size : var(--fs-400);}
-.fs-300 {font-size : var(--fs-300);}
-.fs-200 {font-size : var(--fs-200);}
+.fs-900 {
+  font-size: var(--fs-900);
+}
+.fs-800 {
+  font-size: var(--fs-800);
+}
+.fs-700 {
+  font-size: var(--fs-700);
+}
+.fs-600 {
+  font-size: var(--fs-600);
+}
+.fs-500 {
+  font-size: var(--fs-500);
+}
+.fs-400 {
+  font-size: var(--fs-400);
+}
+.fs-300 {
+  font-size: var(--fs-300);
+}
+.fs-200 {
+  font-size: var(--fs-200);
+}
 
 .fs-900,
 .fs-800,
 .fs-700,
-.fs-600{
-  line-height:1.1;
+.fs-600 {
+  line-height: 1.1;
 }
 
 .flow > * + * {
-  margin-top: var(--flow-space,1rem);
+  margin-top: var(--flow-space, 1rem);
 }
 
 /*------------------*/
