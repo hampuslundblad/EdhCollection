@@ -3,14 +3,14 @@
     <div class="login-container">
       <h1 class="ff-serif">Login</h1>
       <form>
-      <input type="email" name="email" placeholder="email" v-model="email" />
-      <br />
-      <input
-        type="password"
-        name="password"
-        placeholder="password"
-        v-model="password"
-      />
+        <input type="email" name="email" placeholder="email" v-model="email" />
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          v-model="password"
+        />
       </form>
       <br />
       <span class="error">{{ error }}</span>
@@ -22,7 +22,8 @@
 <script setup>
 import { ref } from "vue";
 import AuthenticationService from "../services/AuthenticationService";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const error = ref("");
@@ -36,6 +37,8 @@ async function login() {
   } catch (err) {
     error.value = err.response.data.error;
   }
+  // router.push({ name: "user", params: { id: "static id" } });
+  router.push("/user/ " + email.value);
 }
 </script>
 <style scoped>
