@@ -2,6 +2,7 @@
   <div class="layout">
     <div class="login-container">
       <h1 class="ff-serif">Login</h1>
+      <form>
       <input type="email" name="email" placeholder="email" v-model="email" />
       <br />
       <input
@@ -10,6 +11,7 @@
         placeholder="password"
         v-model="password"
       />
+      </form>
       <br />
       <span class="error">{{ error }}</span>
       <button @click="login">Login</button>
