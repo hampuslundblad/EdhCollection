@@ -19,6 +19,11 @@ npm run dev
 ```sh
 npm run build
 ```
+### Run unit tests
+
+```sh
+npm run test:unit
+```
 
 ### Lint with [ESLint](https://eslint.org/)
 

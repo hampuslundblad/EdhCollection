@@ -1,26 +1,28 @@
 <template>
-<QuickAddCardInput @update:cardName = "addNewRow"/>
-  <button @click="addNewRow">Add card to table</button>
-  <table id="card">
-    <tr>
-      <th>Card Name</th>
-      <th>Quantity</th>
-      <th>MCM Price trend</th>
-      <th>Set</th>
-    </tr>
-    <tr v-for="invoice in invoice_data" :key="invoice">
-      <td>{{ invoice.card_name }}</td>
-      <td>{{ invoice.quantity }}</td>
-      <td>{{ invoice.mcm_price }}</td>
-      <td>{{ invoice.set }}</td>
-    </tr>
-  </table>
+  <div>
+    <QuickAddCardInput @update:cardName="addNewRow" />
+    <button @click="addNewRow">Add card to table</button>
+    <table id="card">
+      <tr>
+        <th>Card Name</th>
+        <th>Quantity</th>
+        <th>MCM Price trend</th>
+        <th>Set</th>
+      </tr>
+      <tr v-for="invoice in invoice_data" :key="invoice" data-test="cardTable">
+        <td>{{ invoice.card_name }}</td>
+        <td>{{ invoice.quantity }}</td>
+        <td>{{ invoice.mcm_price }}</td>
+        <td>{{ invoice.set }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import CardSearchPopupButton from "./CardSearchPopupButton.vue";
 import QuickAddCardInput from "./QuickAddCardInput.vue";
-const cardName = ref('')
+const cardName = ref("");
 
 const invoice_data = ref([
   {
