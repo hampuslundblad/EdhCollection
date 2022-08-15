@@ -3,14 +3,14 @@
     <div class="login-container">
       <h1 class="ff-serif">Login</h1>
       <form>
-      <input type="email" name="email" placeholder="email" v-model="email" />
-      <br />
-      <input
-        type="password"
-        name="password"
-        placeholder="password"
-        v-model="password"
-      />
+        <input type="email" name="email" placeholder="email" v-model="email" />
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          v-model="password"
+        />
       </form>
       <br />
       <span class="error">{{ error }}</span>
@@ -22,10 +22,14 @@
 <script setup>
 import { ref } from "vue";
 import AuthenticationService from "../services/AuthenticationService";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user";
 
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const userStore = useUserStore();
 
 async function login() {
   try {
@@ -33,6 +37,8 @@ async function login() {
       email: email.value,
       password: password.value,
     });
+    router.push("/user/ " + email.value);
+    userStore.setUserAsLoggedIn(); //TODO, code hazard?
   } catch (err) {
     error.value = err.response.data.error;
   }
