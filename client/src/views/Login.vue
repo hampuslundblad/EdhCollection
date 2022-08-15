@@ -23,10 +23,13 @@
 import { ref } from "vue";
 import AuthenticationService from "../services/AuthenticationService";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user";
+
 const router = useRouter();
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const userStore = useUserStore();
 
 async function login() {
   try {
@@ -34,11 +37,11 @@ async function login() {
       email: email.value,
       password: password.value,
     });
+    router.push("/user/ " + email.value);
+    userStore.setUserAsLoggedIn(); //TODO, code hazard?
   } catch (err) {
     error.value = err.response.data.error;
   }
-  // router.push({ name: "user", params: { id: "static id" } });
-  router.push("/user/ " + email.value);
 }
 </script>
 <style scoped>

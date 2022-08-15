@@ -28,10 +28,11 @@
 <script setup>
 import { ref } from "vue";
 import AuthenticationService from "../services/AuthenticationService";
-
+import { useUserStore } from "../stores/user";
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const userStore = useUserStore();
 
 async function register() {
   try {
@@ -39,6 +40,7 @@ async function register() {
       email: email.value,
       password: password.value,
     });
+    userStore.setUserAsLoggedIn(); //TODO, code hazard?
   } catch (err) {
     error.value = err.response.data.error;
   }
