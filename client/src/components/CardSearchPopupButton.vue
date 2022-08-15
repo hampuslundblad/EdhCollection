@@ -1,12 +1,12 @@
 <template>
   <div>
     <button @click="() => togglePopup('buttonTrigger')">Add card</button>
-     <CardSearchPopup
-    v-if="popupTrigger.buttonTrigger"
-    :togglePopup="() => togglePopup('buttonTrigger')"
-  >
-    <h2>Search for a card</h2>
-  </CardSearchPopup>
+    <CardSearchPopup
+      v-if="popupTrigger.buttonTrigger"
+      :togglePopup="() => togglePopup('buttonTrigger')"
+    >
+      <h2>Search for a card</h2>
+    </CardSearchPopup>
   </div>
 </template>
 <script setup>

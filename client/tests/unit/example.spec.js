@@ -2,8 +2,10 @@ import { mount } from "@vue/test-utils";
 import CardCollectionTable from "@/components/CardCollectionTable.vue";
 
 describe("CardCollectionTable.vue", () => {
-  it("renders props.msg when passed", () => {
+  it("Table should have length 1", () => {
+    const columns = 4;
     const wrapper = mount(CardCollectionTable);
-    expect(true);
+    const table = wrapper.find('[data-test="cardTable"]');
+    expect(true)
   });
 });
