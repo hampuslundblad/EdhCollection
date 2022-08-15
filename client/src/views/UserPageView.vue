@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <main class="ff-sans-normal">
     <h1 class="">Hello {{ $route.params.id }}</h1>

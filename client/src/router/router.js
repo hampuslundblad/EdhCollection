@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import UserPage from "../views/UserPage.vue";
-import Home from "../views/Home.vue";
-import NotFound from "../views/NotFound.vue";
-import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
+import UserPage from "../views/UserPageView.vue";
+import NotFound from "../views/NotFoundView.vue";
+import Login from "../views/LoginView.vue";
+import Register from "../views/RegisterView.vue";
 import { useUserStore } from "../stores/user";
 
 export const router = createRouter({
@@ -17,7 +16,7 @@ export const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   const userStore = useUserStore();
   if (
     // make sure the user is authenticated

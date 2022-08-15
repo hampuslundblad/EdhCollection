@@ -1,5 +1,5 @@
 <template>
-<QuickAddCardInput @update:cardName = "addNewRow"/>
+  <QuickAddCardInput @update:cardName="addNewRow" />
   <button @click="addNewRow">Add card to table</button>
   <table id="card">
     <tr>
@@ -18,9 +18,9 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import CardSearchPopupButton from "./CardSearchPopupButton.vue";
+//import CardSearchPopupButton from "./CardSearchPopupButton.vue";
 import QuickAddCardInput from "./QuickAddCardInput.vue";
-const cardName = ref('')
+const cardName = ref("");
 
 const invoice_data = ref([
   {

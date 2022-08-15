@@ -1,27 +1,29 @@
-# Edh Collection 
+# vue-testing-babel
 
-Freetime project, just trying to setup a website.
-
-## Project Setup
-
-```sh
+## Project setup
+```
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
+### Compiles and hot-reloads for development
+```
+npm run serve
 ```
 
-### Compile and Minify for Production
-
-```sh
+### Compiles and minifies for production
+```
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Run your unit tests
+```
+npm run test:unit
+```
 
-```sh
+### Lints and fixes files
+```
 npm run lint
 ```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
