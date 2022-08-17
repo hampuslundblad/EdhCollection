@@ -21,6 +21,8 @@
         </form>
       </div>
       <span class="error">{{ error }}</span>
+      <span class="success">{{ success }}</span>
+
       <button @click="register">Register</button>
     </div>
   </div>
@@ -32,17 +34,23 @@ import { useUserStore } from "../stores/user";
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const success = ref("");
 const userStore = useUserStore();
 
 async function register() {
   try {
-    await AuthenticationService.register({
+    const response = await AuthenticationService.register({
       email: email.value,
       password: password.value,
     });
-    userStore.setUserAsLoggedIn(); //TODO, code hazard?
+    //   userStore.setUserAsLoggedIn(); //TODO, code hazard?
+    userStore.setUser(response.data.user);
+    userStore.setToken(response.data.token);
+    success.value = "You've been registered!";
+    error.value = "";
   } catch (err) {
     error.value = err.response.data.error;
+    success.value = "";
   }
 }
 </script>
@@ -50,6 +58,9 @@ async function register() {
 @import "../assets/base.css";
 .error {
   color: red;
+}
+.success {
+  color: green;
 }
 .register-container {
   display: flex;

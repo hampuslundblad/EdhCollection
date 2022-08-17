@@ -1,6 +1,5 @@
 const Promise = require("bluebird");
 const bcrypt = Promise.promisifyAll(require("bcryptjs"));
-
 function hashPassword(user, options) {
   const SALT_FACTOR = 8;
 

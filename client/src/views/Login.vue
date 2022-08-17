@@ -33,13 +33,15 @@ const userStore = useUserStore();
 
 async function login() {
   try {
-    await AuthenticationService.login({
+    const response = await AuthenticationService.login({
       email: email.value,
       password: password.value,
     });
+    userStore.setUser(response.data.user);
+    userStore.setToken(response.data.token);
     router.push("/user/ " + email.value);
-    userStore.setUserAsLoggedIn(); //TODO, code hazard?
   } catch (err) {
+    console.log("ERROR", err);
     error.value = err.response.data.error;
   }
 }

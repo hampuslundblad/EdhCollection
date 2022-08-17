@@ -1,4 +1,4 @@
-const { User } = require("../database");
+const { User, Collection } = require("../database");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 

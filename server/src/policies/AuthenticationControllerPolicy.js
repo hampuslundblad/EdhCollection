@@ -13,7 +13,7 @@ module.exports = {
           res.status(400).send({
             error: "You must provide a valid email adress",
           });
-          break
+          break;
         case "password":
           res.status(400).send({
             error: `The password provided failed to match the following rules:
@@ -23,11 +23,11 @@ module.exports = {
                         2. It must be at least 8 chracters in length and not greater than 32
                         `,
           });
-          break
+          break;
         default:
           res.status(400).send({
-            error: 'Invalid registration information'
-          })
+            error: "Invalid registration information",
+          });
       }
     } else {
       next();
