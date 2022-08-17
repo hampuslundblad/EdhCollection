@@ -16,7 +16,7 @@ export const router = createRouter({
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ],
 });
-
+/*
 router.beforeEach(async (to, from) => {
   const userStore = useUserStore();
   if (
@@ -25,7 +25,9 @@ router.beforeEach(async (to, from) => {
     // Avoid an infinite redirect
     to.name !== "Login"
   ) {
+    console.log('redirecting')
     // redirect the user to the login page
     return { name: "Login" };
   }
 });
+*/
