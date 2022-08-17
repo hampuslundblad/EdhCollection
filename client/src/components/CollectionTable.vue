@@ -1,33 +1,42 @@
 <template>
   <div>
-
     <table id="card">
       <tr>
         <th>Card Name</th>
         <th>Quantity</th>
-        <th>MCM Price trend</th>
+        <th>Price</th>
         <th>Set</th>
+        <th>Foil</th>
       </tr>
       <tr v-for="invoice in invoice_data" :key="invoice" data-test="cardTable">
         <td>{{ invoice.card_name }}</td>
         <td>{{ invoice.quantity }}</td>
-        <td>{{ invoice.mcm_price }}</td>
+        <td>{{ invoice.price }}</td>
+        <td>{{ invoice.foil }}</td>
         <td>{{ invoice.set }}</td>
       </tr>
     </table>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-const cardName = ref("");
+import { ref, onMounted } from "vue";
+import CollectionService from "../services/CollectionService.mjs";
 //    <QuickAddCardInput @update:cardName="addNewRow" />
 //     <button @click="addNewRow">Add card to table</button>
+
+onMounted(async () => {
+  const query = { userId: 1 };
+
+  const response = await CollectionService.getAllCollections(query);
+});
+
 const invoice_data = ref([
   {
     card_name: "Muldrotha, the Gravetide",
     quantity: 1,
-    mcm_price: "3.29 €",
+    price: "3.29 €",
     set: "Dominaria",
+    foil: "true",
   },
 ]);
 const addNewRow = (cardName, price) => {

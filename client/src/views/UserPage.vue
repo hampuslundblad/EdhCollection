@@ -3,12 +3,12 @@
     <h1 class="">Hello {{ $route.params.id }}</h1>
     <hr class="divider" />
     <h3>Collection</h3>
-    <CardCollectionTable />
+    <CollectionTable />
   </main>
 </template>
 <script setup>
 import { ref } from "vue";
-import CardCollectionTable from "../components/CardCollectionTable.vue";
+import CollectionTable from "../components/CollectionTable.vue";
 
 const popupTrigger = ref({
   buttonTrigger: false,

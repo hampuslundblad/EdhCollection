@@ -25,9 +25,9 @@ module.exports = {
   },
 
   async addCardToCollection(req, res) {
-    const userId = req.body.user.id;
-    const collectionId = req.body.collection.id;
     try {
+      const userId = req.body.user.id;
+      const collectionId = req.body.collection.id;
       const collection = Collection.findAll({
         where: {
           id: collectionId,
@@ -54,7 +54,9 @@ module.exports = {
   },
   async findAll(req, res) {
     try {
-      const userId = req.body.user.id;
+      console.log(req.query.userId);
+
+      const userId = req.query.userId;
       const userCollections = await Collection.findAll({
         where: {
           userId: userId,
