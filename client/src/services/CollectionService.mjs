@@ -6,6 +6,6 @@ export default {
   },
   getAllCollections(query) {
     const { userId } = query;
-    return Api().get(`collection?userId=${userId}`);
+    return Api().get(`collection/${userId}`);
   },
 };

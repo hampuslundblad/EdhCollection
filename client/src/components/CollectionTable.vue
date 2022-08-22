@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{props.title}}</h1>
     <table id="card">
       <tr>
         <th>Card Name</th>
@@ -8,43 +9,47 @@
         <th>Set</th>
         <th>Foil</th>
       </tr>
-      <tr v-for="invoice in invoice_data" :key="invoice" data-test="cardTable">
-        <td>{{ invoice.card_name }}</td>
-        <td>{{ invoice.quantity }}</td>
-        <td>{{ invoice.price }}</td>
-        <td>{{ invoice.foil }}</td>
-        <td>{{ invoice.set }}</td>
+      <tr v-for="card in userCollection" :key="card" data-test="cardTable">
+        <td>{{ card.name }}</td>
+        <td>{{ card.quantity }}</td>
+        <td>{{ card.price }}</td>
+        <td>{{ card.foil }}</td>
+        <td>{{ card.set }}</td>
       </tr>
     </table>
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import CollectionService from "../services/CollectionService.mjs";
-//    <QuickAddCardInput @update:cardName="addNewRow" />
-//     <button @click="addNewRow">Add card to table</button>
+import { useUserStore } from "../stores/user.js";
 
+const props = defineProps({
+  title: String
+})
+
+const userStore = useUserStore();
+const userCollection = ref();
+const error = ref();
 onMounted(async () => {
-  const query = { userId: 1 };
-
-  const response = await CollectionService.getAllCollections(query);
+  const query = { userId: userStore.user };
+  try {
+    const response = await CollectionService.getAllCollections(query);
+    const collectionJSON = JSON.parse(response.data.userCollections);
+    userCollection.value = collectionJSON[0].Cards;
+  } catch (err) {
+    error.value = err;
+    console.log(error.value);
+  }
 });
 
-const invoice_data = ref([
-  {
-    card_name: "Muldrotha, the Gravetide",
-    quantity: 1,
-    price: "3.29 €",
-    set: "Dominaria",
-    foil: "true",
-  },
-]);
 const addNewRow = (cardName, price) => {
   invoice_data.value.push({
     card_name: cardName,
     quantity: 1,
     mcm_price: price + " €",
     set: "Kaladesh",
+    foil: "true",
   });
 };
 </script>

@@ -3,11 +3,24 @@ const { User, Collection, Card } = require("../database");
 module.exports = {
   async createCollection(req, res) {
     try {
-      const userId = req.body.user.id;
+      const userId = req.body.userId;
       const user = await User.findByPk(userId);
       if (user === null) {
         return res.status(500).send({
           error: "Unable to find user",
+        });
+      }
+      const userCollections = await Collection.findAll({
+        where: {
+          userId: userId,
+        },
+        include: {
+          model: Card,
+        },
+      });
+      if (userCollections.length >= 2) {
+        return res.status(500).send({
+          error: "This user already has 2 collections",
         });
       }
       const collection = await Collection.create({
@@ -26,8 +39,9 @@ module.exports = {
 
   async addCardToCollection(req, res) {
     try {
-      const userId = req.body.user.id;
-      const collectionId = req.body.collection.id;
+      const userId = req.body.userId;
+      console.log("userID", userId);
+      const collectionId = req.body.collectionId;
       const collection = Collection.findAll({
         where: {
           id: collectionId,
@@ -54,9 +68,7 @@ module.exports = {
   },
   async findAll(req, res) {
     try {
-      console.log(req.query.userId);
-
-      const userId = req.query.userId;
+      const userId = req.params.userId;
       const userCollections = await Collection.findAll({
         where: {
           userId: userId,

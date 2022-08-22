@@ -2,13 +2,15 @@
   <main class="ff-sans-normal">
     <h1 class="">Hello {{ $route.params.id }}</h1>
     <hr class="divider" />
-    <h3>Collection</h3>
-    <CollectionTable />
+    <CardSearchPopupButton text="Add card to collection" />
+    <CollectionTable title="Wanted" />
+    <CollectionTable title="Have" />
   </main>
 </template>
 <script setup>
 import { ref } from "vue";
 import CollectionTable from "../components/CollectionTable.vue";
+import CardSearchPopupButton from "../components/CardSearchButton.vue";
 
 const popupTrigger = ref({
   buttonTrigger: false,
