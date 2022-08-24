@@ -1,10 +1,10 @@
-import Api from "@/services/Api";
+import {Db} from "@/services/Api";
 
 export default {
   register(credentials) {
-    return Api().post("register", credentials);
+    return Db().post("register", credentials);
   },
   login(credentials) {
-    return Api().post("login", credentials);
+    return Db().post("login", credentials);
   },
 };

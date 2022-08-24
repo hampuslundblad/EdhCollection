@@ -1,11 +1,11 @@
-import Api from "@/services/Api";
+import { Db } from "./Api.mjs";
 
 export default {
-  addCard(credentials) {
-    return Api().post("collection/card", credentials);
+  addCard(query) {
+    return Db().post("collection/card", query);
   },
   getAllCollections(query) {
     const { userId } = query;
-    return Api().get(`collection/${userId}`);
+    return Db().get(`collection/${userId}`);
   },
 };

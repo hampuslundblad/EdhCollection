@@ -4,7 +4,7 @@
       <h2>Search for a card</h2>
       <form>
         <p>Collection</p>
-        <select v-model="selected">
+        <select v-model="selectedCollection">
           <option disabled value="">Please select one</option>
           <option>Wanted</option>
           <option>Have</option>
@@ -14,20 +14,55 @@
         <p>Quantity</p>
         <input v-model="quantity" placeholder="quantity" />
         <p>Foil</p>
-        <select v-model="selected">
+        <select v-model="selectedFoil">
           <option disabled value="">Please select one</option>
           <option>Yes</option>
           <option>No</option>
         </select>
       </form>
-      <button class="popup-close" @click="togglePopup()">Add card</button>
-      <button class="popup-close" @click="togglePopup()">Close</button>
+      <button class="popup-close" @click="handleAddCard()">Add card</button>
+      <button class="popup-close" @click="handleClosePopup()">Close</button>
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ["togglePopup"],
+<script setup>
+import { ref, defineEmits } from "vue";
+import BaseEmitButton from "./BaseEmitButton.vue";
+import ScryfallService from "../services/ScryfallService.mjs";
+import CollectionService from "../services/CollectionService.mjs";
+const cardName = ref("");
+const quantity = ref("");
+const selectedCollection = ref("Wanted");
+const selectedFoil = ref("No");
+
+const card = {
+  cardName,
+  quantity,
+  selectedCollection,
+  selectedFoil,
+};
+
+const emits = defineEmits(["onButtonClick"]);
+const handleAddCard = async () => {
+  try {
+    const response = await ScryfallService.searchCard(card.cardName);
+    console.log(response.data.data);
+    const responseCard = response.data.data[0]
+    CollectionService.addCard({
+        CollectionId: collectionId,
+        name: responseCard.name,
+        price: "123",
+        set: responseCard.set,
+        quantity: quantity,
+        foil: foil,
+        imageUrl: responseCard.image_uris.normal,
+    })
+  } catch (err) {
+    console.log(err);
+  }
+};
+const handleClosePopup = () => {
+  emits("onButtonClick");
 };
 </script>
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{props.title}}</h1>
+    <h1>{{ title }}</h1>
     <table id="card">
       <tr>
         <th>Card Name</th>
@@ -9,7 +9,7 @@
         <th>Set</th>
         <th>Foil</th>
       </tr>
-      <tr v-for="card in userCollection" :key="card" data-test="cardTable">
+      <tr v-for="card in collection.value" :key="card" data-test="cardTable">
         <td>{{ card.name }}</td>
         <td>{{ card.quantity }}</td>
         <td>{{ card.price }}</td>
@@ -21,27 +21,11 @@
 </template>
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
-import CollectionService from "../services/CollectionService.mjs";
-import { useUserStore } from "../stores/user.js";
 
-const props = defineProps({
-  title: String
-})
-
-const userStore = useUserStore();
-const userCollection = ref();
-const error = ref();
-onMounted(async () => {
-  const query = { userId: userStore.user };
-  try {
-    const response = await CollectionService.getAllCollections(query);
-    const collectionJSON = JSON.parse(response.data.userCollections);
-    userCollection.value = collectionJSON[0].Cards;
-  } catch (err) {
-    error.value = err;
-    console.log(error.value);
-  }
-});
+const props = defineProps(["title", "collection"]);
+const title = ref(props.title);
+const collection = ref({});
+console.log(collection.value)
 
 const addNewRow = (cardName, price) => {
   invoice_data.value.push({

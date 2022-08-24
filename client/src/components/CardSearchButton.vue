@@ -5,7 +5,7 @@
     </button>
     <CardSearchPopup
       v-if="popupTrigger.buttonTrigger"
-      :togglePopup="() => togglePopup('buttonTrigger')"
+      @onButtonClick="togglePopup('buttonTrigger')"
     >
     </CardSearchPopup>
   </div>

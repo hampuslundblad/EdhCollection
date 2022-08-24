@@ -14,6 +14,14 @@ module.exports = {
     try {
       const user = await User.create(req.body);
       const userJson = user.toJSON();
+      await Collection.create({
+        UserId: user.id,
+        name: "wanted",
+      });
+      await Collection.create({
+        UserId: user.id,
+        name: "have",
+      });
       res.send({
         user: user.toJSON(),
         token: jwtSignUser(userJson),
