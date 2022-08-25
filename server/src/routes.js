@@ -8,7 +8,6 @@ module.exports = (app) => {
     AuthenticationController.register
   );
   app.post("/login", AuthenticationController.login);
-  app.post("/collection", CollectionController.createCollection);
   app.post("/collection/card", CollectionController.addCardToCollection);
   app.get("/collection/:userId", CollectionController.findAll);
 };

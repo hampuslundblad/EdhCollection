@@ -27,7 +27,6 @@
 </template>
 <script setup>
 import { ref, defineEmits } from "vue";
-import BaseEmitButton from "./BaseEmitButton.vue";
 import ScryfallService from "../services/ScryfallService.mjs";
 import CollectionService from "../services/CollectionService.mjs";
 import { useUserStore } from "../stores/user";
@@ -38,13 +37,14 @@ const selectedFoil = ref("No");
 const userStore = useUserStore();
 
 const emits = defineEmits(["onButtonClick"]);
+
 const handleAddCard = async () => {
   try {
     const response = await ScryfallService.searchCard(cardName);
     const responseCard = response.data.data[0];
     await CollectionService.addCard({
-      collectionId: "1",
-      userId: "1",
+      collectionName: selectedCollection.value.toLowerCase(),
+      userId: userStore.user,
       card: {
         name: responseCard.name,
         price: "123",
@@ -54,6 +54,7 @@ const handleAddCard = async () => {
         imageUrl: responseCard.image_uris.normal,
       },
     });
+    handleClosePopup()
   } catch (err) {
     console.log(err);
   }
