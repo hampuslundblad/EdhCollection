@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import UserPage from "../views/UserPage.vue";
-import Home from "../views/Home.vue";
+import Collection from "../views/Collection.vue";
 import NotFound from "../views/NotFound.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
@@ -12,22 +11,22 @@ export const router = createRouter({
     { path: "/", name: "Login", component: Login },
     { path: "/register", name: "Register", component: Register },
 
-    { path: "/user/:id", name: "User", component: UserPage },
+    { path: "/user/:id", name: "Collection", component: Collection },
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ],
 });
-/*
+
 router.beforeEach(async (to, from) => {
   const userStore = useUserStore();
   if (
     // make sure the user is authenticated
     !userStore.isUserLoggedIn &&
     // Avoid an infinite redirect
-    to.name !== "Login"
+    to.name !== "Login" &&
+    to.name !== "Register"
   ) {
-    console.log('redirecting')
+    console.log("redirecting");
     // redirect the user to the login page
     return { name: "Login" };
   }
 });
-*/

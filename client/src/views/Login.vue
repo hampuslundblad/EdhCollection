@@ -37,7 +37,7 @@ async function login() {
       email: email.value,
       password: password.value,
     });
-    userStore.setUser(response.data.user);
+    userStore.setUser(response.data.user.id);
     userStore.setToken(response.data.token);
     router.push("/user/ " + email.value);
   } catch (err) {
