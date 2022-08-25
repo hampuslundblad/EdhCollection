@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>{{ props.title }}</h1>
     <table id="card">
       <tr>
         <th>Card Name</th>
@@ -9,7 +9,7 @@
         <th>Set</th>
         <th>Foil</th>
       </tr>
-      <tr v-for="card in collection.value" :key="card" data-test="cardTable">
+      <tr v-for="card in props.collection" :key="card" data-test="cardTable">
         <td>{{ card.name }}</td>
         <td>{{ card.quantity }}</td>
         <td>{{ card.price }}</td>
@@ -20,22 +20,12 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, defineProps } from "vue";
+import { ref, defineProps } from "vue";
 
-const props = defineProps(["title", "collection"]);
-const title = ref(props.title);
-const collection = ref({});
-console.log(collection.value)
-
-const addNewRow = (cardName, price) => {
-  invoice_data.value.push({
-    card_name: cardName,
-    quantity: 1,
-    mcm_price: price + " €",
-    set: "Kaladesh",
-    foil: "true",
-  });
-};
+const props = defineProps({
+  title: String,
+  collection: { type: Array, required: true },
+});
 </script>
 <style scoped>
 #card {

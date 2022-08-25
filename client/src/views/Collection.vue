@@ -3,8 +3,13 @@
     <h1 class="">Hello {{ $route.params.id }}</h1>
     <hr class="divider" />
     <CardSearchPopupButton text="Add card to collection" />
-    <CollectionTable title="Wanted" />
-    <CollectionTable title="Have" />
+    <div v-if="!isLoading">
+      <CollectionTable title="Wanted" :collection="collectionWanted" />
+      <CollectionTable title="Have" :collection="collectionHave" />
+    </div>
+    <div v-else>
+      Loading ...
+    </div>
   </main>
 </template>
 <script setup>
@@ -20,21 +25,25 @@ const props = defineProps({
 const userStore = useUserStore();
 const userCollection = ref();
 const error = ref();
-const collectionWanted = ref();
-const collectionHave = ref();
+const collectionWanted = ref([]);
+const collectionHave = ref([]);
+const isLoading = ref(true);
 onMounted(async () => {
   const query = { userId: userStore.user };
   try {
     const response = await CollectionService.getAllCollections(query);
     const collectionJSON = JSON.parse(response.data.userCollections);
     userCollection.value = collectionJSON;
-    console.log(collectionJSON);
     if (collectionJSON[0].name === "wanted") {
       collectionWanted.value = collectionJSON[0].Cards;
       collectionHave.value = collectionJSON[1].Cards;
+      isLoading.value = false;
+      console.log("from collection", collectionHave.value);
     } else {
       collectionWanted.value = collectionJSON[1].Cards;
       collectionHave.value = collectionJSON[0].Cards;
+      isLoading.value = false;
+      console.log("from collection", collectionHave.value);
     }
   } catch (err) {
     error.value = err;

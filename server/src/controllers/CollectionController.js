@@ -41,6 +41,7 @@ module.exports = {
     try {
       const userId = req.body.userId;
       console.log("userID", userId);
+      
       const collectionId = req.body.collectionId;
       const collection = Collection.findAll({
         where: {

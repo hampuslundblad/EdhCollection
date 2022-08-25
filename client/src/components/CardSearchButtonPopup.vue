@@ -30,33 +30,30 @@ import { ref, defineEmits } from "vue";
 import BaseEmitButton from "./BaseEmitButton.vue";
 import ScryfallService from "../services/ScryfallService.mjs";
 import CollectionService from "../services/CollectionService.mjs";
+import { useUserStore } from "../stores/user";
 const cardName = ref("");
 const quantity = ref("");
 const selectedCollection = ref("Wanted");
 const selectedFoil = ref("No");
-
-const card = {
-  cardName,
-  quantity,
-  selectedCollection,
-  selectedFoil,
-};
+const userStore = useUserStore();
 
 const emits = defineEmits(["onButtonClick"]);
 const handleAddCard = async () => {
   try {
-    const response = await ScryfallService.searchCard(card.cardName);
-    console.log(response.data.data);
-    const responseCard = response.data.data[0]
-    CollectionService.addCard({
-        CollectionId: collectionId,
+    const response = await ScryfallService.searchCard(cardName);
+    const responseCard = response.data.data[0];
+    await CollectionService.addCard({
+      collectionId: "1",
+      userId: "1",
+      card: {
         name: responseCard.name,
         price: "123",
         set: responseCard.set,
-        quantity: quantity,
-        foil: foil,
+        quantity: quantity.value,
+        foil: selectedFoil.value,
         imageUrl: responseCard.image_uris.normal,
-    })
+      },
+    });
   } catch (err) {
     console.log(err);
   }
