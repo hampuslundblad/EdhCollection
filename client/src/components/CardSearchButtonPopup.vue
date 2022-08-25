@@ -4,17 +4,17 @@
       <h2>Search for a card</h2>
       <form>
         <p>Collection</p>
-        <select v-model="selectedCollection">
+        <select v-model="formValues.selectedCollection">
           <option disabled value="">Please select one</option>
           <option>Wanted</option>
           <option>Have</option>
         </select>
         <p>Card Name</p>
-        <input v-model="cardName" placeholder="card name" />
+        <input v-model="formValues.cardName" placeholder="card name" />
         <p>Quantity</p>
-        <input v-model="quantity" placeholder="quantity" />
+        <input v-model="formValues.quantity" placeholder="quantity" />
         <p>Foil</p>
-        <select v-model="selectedFoil">
+        <select v-model="formValues.selectedFoil">
           <option disabled value="">Please select one</option>
           <option>Yes</option>
           <option>No</option>
@@ -26,10 +26,16 @@
   </div>
 </template>
 <script setup>
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 import ScryfallService from "../services/ScryfallService.mjs";
 import CollectionService from "../services/CollectionService.mjs";
 import { useUserStore } from "../stores/user";
+const formValues = ref({
+  cardName: "",
+  quantity: "",
+  selectedCollection: "Wanted",
+  selectedFoil: "No",
+});
 const cardName = ref("");
 const quantity = ref("");
 const selectedCollection = ref("Wanted");
@@ -40,21 +46,23 @@ const emits = defineEmits(["onButtonClick"]);
 
 const handleAddCard = async () => {
   try {
-    const response = await ScryfallService.searchCard(cardName);
+    const response = await ScryfallService.searchCard(
+      formValues.value.cardName
+    );
     const responseCard = response.data.data[0];
     await CollectionService.addCard({
-      collectionName: selectedCollection.value.toLowerCase(),
+      collectionName: formValues.value.selectedCollection.toLowerCase(),
       userId: userStore.user,
       card: {
         name: responseCard.name,
         price: "123",
         set: responseCard.set,
-        quantity: quantity.value,
-        foil: selectedFoil.value,
+        quantity: formValues.value.quantity,
+        foil: formValues.value.selectedFoil,
         imageUrl: responseCard.image_uris.normal,
       },
     });
-    handleClosePopup()
+    handleClosePopup();
   } catch (err) {
     console.log(err);
   }
