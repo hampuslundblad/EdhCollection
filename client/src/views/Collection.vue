@@ -7,9 +7,7 @@
       <CollectionTable title="Wanted" :collection="collectionWanted" />
       <CollectionTable title="Have" :collection="collectionHave" />
     </div>
-    <div v-else>
-      Loading ...
-    </div>
+    <div v-else>Loading ...</div>
   </main>
 </template>
 <script setup>
@@ -17,7 +15,7 @@ import { ref, onMounted } from "vue";
 import CollectionTable from "../components/CollectionTable.vue";
 import CardSearchPopupButton from "../components/CardSearchButton.vue";
 import { useUserStore } from "../stores/user.js";
-import CollectionService from "../services/CollectionService.mjs";
+import CollectionService from "../services/CollectionService.ts";
 const props = defineProps({
   title: String,
 });
@@ -28,28 +26,38 @@ const error = ref();
 const collectionWanted = ref([]);
 const collectionHave = ref([]);
 const isLoading = ref(true);
+
 onMounted(async () => {
-  const query = { userId: userStore.user };
+  await loadCollection();
+});
+
+async function loadCollection() {
   try {
-    const response = await CollectionService.getAllCollections(query);
-    const collectionJSON = JSON.parse(response.data.userCollections);
-    userCollection.value = collectionJSON;
-    if (collectionJSON[0].name === "wanted") {
-      collectionWanted.value = collectionJSON[0].Cards;
-      collectionHave.value = collectionJSON[1].Cards;
-      isLoading.value = false;
-      console.log("from collection", collectionHave.value);
-    } else {
-      collectionWanted.value = collectionJSON[1].Cards;
-      collectionHave.value = collectionJSON[0].Cards;
-      isLoading.value = false;
-      console.log("from collection", collectionHave.value);
-    }
+    const collection = await fetchCollection();
+    parseAndSetCollectionvalues(collection);
   } catch (err) {
     error.value = err;
     console.log(error.value);
   }
-});
+}
+async function fetchCollection() {
+  const query = { userId: userStore.user };
+  const response = await CollectionService.getAllCollections(query);
+  const collectionJSON = JSON.parse(response.data.userCollections);
+  return collectionJSON;
+}
+async function parseAndSetCollectionvalues(collection) {
+  userCollection.value = collection;
+  if (collection[0].name === "wanted") {
+    collectionWanted.value = collection[0].Cards;
+    collectionHave.value = collection[1].Cards;
+    isLoading.value = false;
+  } else {
+    collectionWanted.value = collection[1].Cards;
+    collectionHave.value = collection[0].Cards;
+    isLoading.value = false;
+  }
+}
 
 const popupTrigger = ref({
   buttonTrigger: false,

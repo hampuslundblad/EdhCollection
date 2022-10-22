@@ -28,7 +28,7 @@
 <script setup>
 import { ref } from "vue";
 import ScryfallService from "../services/ScryfallService.ts";
-import CollectionService from "../services/CollectionService.mjs";
+import CollectionService from "../services/CollectionService.ts";
 import { useUserStore } from "../stores/user";
 const formValues = ref({
   cardName: "",

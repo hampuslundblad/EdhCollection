@@ -4,8 +4,9 @@ export default {
   addCard(query) {
     return Db().post("collection/card", query);
   },
-  getAllCollections(query) {
+  async getAllCollections(query) {
     const { userId } = query;
-    return Db().get(`collection/${userId}`);
+    const response = await Db().get(`collection/${userId}`);
+    return response;
   },
 };
