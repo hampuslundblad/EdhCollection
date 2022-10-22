@@ -27,7 +27,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import ScryfallService from "../services/ScryfallService.mjs";
+import ScryfallService from "../services/ScryfallService.ts";
 import CollectionService from "../services/CollectionService.mjs";
 import { useUserStore } from "../stores/user";
 const formValues = ref({
@@ -36,10 +36,7 @@ const formValues = ref({
   selectedCollection: "Wanted",
   selectedFoil: "No",
 });
-const cardName = ref("");
-const quantity = ref("");
-const selectedCollection = ref("Wanted");
-const selectedFoil = ref("No");
+
 const userStore = useUserStore();
 
 const emits = defineEmits(["onButtonClick"]);
@@ -49,20 +46,20 @@ const handleAddCard = async () => {
     const response = await ScryfallService.searchCard(
       formValues.value.cardName
     );
-    const responseCard = response.data.data[0];
     await CollectionService.addCard({
       collectionName: formValues.value.selectedCollection.toLowerCase(),
       userId: userStore.user,
       card: {
-        name: responseCard.name,
-        price: "123",
-        set: responseCard.set,
+        name: response.name,
+        price: response.priceEur,
+        set: response.set,
         quantity: formValues.value.quantity,
         foil: formValues.value.selectedFoil,
-        imageUrl: responseCard.image_uris.normal,
+        imageUrl: response.imageUri,
       },
     });
     handleClosePopup();
+    //updatetable
   } catch (err) {
     console.log(err);
   }

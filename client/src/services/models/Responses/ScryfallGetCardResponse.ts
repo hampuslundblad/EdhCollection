@@ -1,0 +1,4 @@
+type ScryfallGetCardResponse {
+    cardName : String,
+    
+}
