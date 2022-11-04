@@ -58,15 +58,13 @@ const handleAddCard = async () => {
         imageUrl: response.imageUri,
       },
     });
+    emits("onButtonClick");
     handleClosePopup();
-    //updatetable
   } catch (err) {
     console.log(err);
   }
 };
-const handleClosePopup = () => {
-  emits("onButtonClick");
-};
+const handleClosePopup = () => {};
 </script>
 <style scoped>
 .popup {
