@@ -2,7 +2,10 @@
   <main class="ff-sans-normal">
     <h1 class="">Welcome to EdhCollection {{ userStore.user.email }}!</h1>
     <hr class="divider" />
-    <CardSearchPopupButton text="Add card to collection" />
+    <CardSearchPopupButton
+      text="Add card to collection"
+      @onAddCard="updateCollection"
+    />
     <div v-if="!isLoading">
       <CollectionTable title="Wanted" :collection="collectionWanted" />
       <CollectionTable title="Have" :collection="collectionHave" />
@@ -30,6 +33,10 @@ const isLoading = ref(true);
 onMounted(async () => {
   await loadCollection();
 });
+async function updateCollection() {
+  console.log("emitted trigger");
+  await loadCollection();
+}
 
 async function loadCollection() {
   try {
@@ -62,8 +69,9 @@ const popupTrigger = ref({
   buttonTrigger: false,
   timedTrigger: false,
 });
-const togglePopup = (trigger) => {
+const togglePopup = async (trigger) => {
   popupTrigger.value[trigger] = !popupTrigger.value[trigger];
+  console.log("toggled");
 };
 </script>
 <style scoped>

@@ -12,7 +12,7 @@
       <tr v-for="card in props.collection" :key="card" data-test="cardTable">
         <td>{{ card.name }}</td>
         <td>{{ card.quantity }}</td>
-        <td>{{ card.price }}</td>
+        <td>{{ card.price + "$" }}</td>
         <td>{{ card.foil }}</td>
         <td>{{ card.set }}</td>
       </tr>
@@ -20,7 +20,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   title: String,

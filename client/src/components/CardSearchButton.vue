@@ -5,7 +5,7 @@
     </button>
     <CardSearchPopup
       v-if="popupTrigger.buttonTrigger"
-      @onButtonClick="togglePopup('buttonTrigger')"
+      @onButtonClick="addCard()"
     >
     </CardSearchPopup>
   </div>
@@ -17,10 +17,15 @@ import { ref } from "vue";
 const props = defineProps({
   text: String,
 });
+const emit = defineEmits(["onAddCard"]);
+
 const popupTrigger = ref({
   buttonTrigger: false,
-  timedTrigger: false,
 });
+const addCard = () => {
+  togglePopup("buttonTrigger");
+  emit("onAddCard");
+};
 const togglePopup = (trigger) => {
   popupTrigger.value[trigger] = !popupTrigger.value[trigger];
 };
