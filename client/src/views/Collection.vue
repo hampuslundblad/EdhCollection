@@ -1,6 +1,6 @@
 <template>
   <main class="ff-sans-normal">
-    <h1 class="">Hello {{ $route.params.id }}</h1>
+    <h1 class="">Welcome to EdhCollection {{ userStore.user.email }}!</h1>
     <hr class="divider" />
     <CardSearchPopupButton text="Add card to collection" />
     <div v-if="!isLoading">
@@ -35,13 +35,14 @@ async function loadCollection() {
   try {
     const collection = await fetchCollection();
     parseAndSetCollectionvalues(collection);
+    isLoading.value = false;
   } catch (err) {
     error.value = err;
     console.log(error.value);
   }
 }
 async function fetchCollection() {
-  const query = { userId: userStore.user };
+  const query = { userId: userStore.user.id };
   const response = await CollectionService.getAllCollections(query);
   const collectionJSON = JSON.parse(response.data.userCollections);
   return collectionJSON;
@@ -51,11 +52,9 @@ async function parseAndSetCollectionvalues(collection) {
   if (collection[0].name === "wanted") {
     collectionWanted.value = collection[0].Cards;
     collectionHave.value = collection[1].Cards;
-    isLoading.value = false;
   } else {
     collectionWanted.value = collection[1].Cards;
     collectionHave.value = collection[0].Cards;
-    isLoading.value = false;
   }
 }
 

@@ -37,9 +37,10 @@ async function login() {
       email: email.value,
       password: password.value,
     });
-    userStore.setUser(response.data.user.id);
+    console.log(response);
+    userStore.setUser(response.data.user);
     userStore.setToken(response.data.token);
-    router.push("/user/ " + email.value);
+    router.push("/user");
   } catch (err) {
     console.log("ERROR", err);
     error.value = err.response.data.error;
@@ -50,8 +51,6 @@ async function login() {
 @import "../assets/base.css";
 .error {
   color: red;
-}
-.login-btn {
 }
 .login-container {
   display: flex;

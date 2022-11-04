@@ -48,7 +48,7 @@ const handleAddCard = async () => {
     );
     await CollectionService.addCard({
       collectionName: formValues.value.selectedCollection.toLowerCase(),
-      userId: userStore.user,
+      userId: userStore.user.id,
       card: {
         name: response.name,
         price: response.priceEur,

@@ -11,22 +11,7 @@ export const router = createRouter({
     { path: "/", name: "Login", component: Login },
     { path: "/register", name: "Register", component: Register },
 
-    { path: "/user/:id", name: "Collection", component: Collection },
+    { path: "/user", name: "Collection", component: Collection },
     { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ],
-});
-
-router.beforeEach(async (to, from) => {
-  const userStore = useUserStore();
-  if (
-    // make sure the user is authenticated
-    !userStore.isUserLoggedIn &&
-    // Avoid an infinite redirect
-    to.name !== "Login" &&
-    to.name !== "Register"
-  ) {
-    console.log("redirecting");
-    // redirect the user to the login page
-    return { name: "Login" };
-  }
 });

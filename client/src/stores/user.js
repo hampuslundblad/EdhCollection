@@ -4,13 +4,11 @@ export const useUserStore = defineStore("user", {
     return {
       isUserLoggedIn: false,
       token: null,
-      user: null,
+      user: JSON.parse(localStorage.getItem("user")),
+      userName: "default user",
     };
   },
   actions: {
-    setUserAsLoggedIn() {
-      this.isUserLoggedIn = true;
-    },
     setToken(token) {
       this.token = token;
       this.isUserLoggedIn = !!token;
@@ -18,7 +16,7 @@ export const useUserStore = defineStore("user", {
     setUser(user) {
       this.user = user;
       this.isUserLoggedIn = true;
-
+      localStorage.setItem("user", JSON.stringify(user));
     },
   },
 });

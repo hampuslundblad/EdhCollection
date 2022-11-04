@@ -43,7 +43,6 @@ async function register() {
       email: email.value,
       password: password.value,
     });
-    //   userStore.setUserAsLoggedIn(); //TODO, code hazard?
     userStore.setUser(response.data.user);
     userStore.setToken(response.data.token);
     success.value = "You've been registered!";
