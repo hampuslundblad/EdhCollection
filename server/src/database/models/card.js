@@ -2,11 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const Card = sequelize.define("Card", {
     name: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
     price: {
       type: DataTypes.DOUBLE,
-      allowNull:false,
+      allowNull: false,
     },
     set: {
       type: DataTypes.STRING,
