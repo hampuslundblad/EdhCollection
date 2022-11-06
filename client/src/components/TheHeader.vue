@@ -1,13 +1,12 @@
-
 <template>
   <div class="header dark ff-serif">
     <router-link class="logo fs-600" to="/">
       <span class="logo light">EdhCollection</span>
     </router-link>
+    <button>Logout</button>
   </div>
 </template>
-<script setup>
-</script>
+<script setup></script>
 <style scoped>
 @import "../assets/base.css";
 
