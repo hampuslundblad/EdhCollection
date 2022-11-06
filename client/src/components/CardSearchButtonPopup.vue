@@ -39,33 +39,44 @@ const formValues = ref({
 
 const userStore = useUserStore();
 
-const emits = defineEmits(["onButtonClick"]);
+const emits = defineEmits(["onAddCard", "onClose"]);
 
 const handleAddCard = async () => {
   try {
     const response = await ScryfallService.searchCard(
       formValues.value.cardName
     );
-    console.log(formValues.value.selectedCollection.toLowerCase());
+
+    let price;
+    console.log("foil", formValues.value.selectedFoil);
+    console.log(typeof formValues.value.selectedFoil);
+
+    if (formValues.value.selectedFoil === "Yes") {
+      price = response.priceEurFoil;
+    } else {
+      price = response.priceEur;
+    }
     await CollectionService.addCard({
       collectionName: formValues.value.selectedCollection.toLowerCase(),
       userId: userStore.user.id,
       card: {
         name: response.name,
-        price: response.priceEur,
+        price: price,
         set: response.set,
         quantity: formValues.value.quantity,
         foil: formValues.value.selectedFoil,
         imageUrl: response.imageUri,
       },
     });
-    emits("onButtonClick");
+    emits("onAddCard");
     handleClosePopup();
   } catch (err) {
     console.log(err);
   }
 };
-const handleClosePopup = () => {};
+const handleClosePopup = () => {
+  emits("onClose");
+};
 </script>
 <style scoped>
 .popup {

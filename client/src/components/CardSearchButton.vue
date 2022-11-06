@@ -5,7 +5,8 @@
     </button>
     <CardSearchPopup
       v-if="popupTrigger.buttonTrigger"
-      @onButtonClick="addCard()"
+      @onAddCard="addCard()"
+      @onClose="() => togglePopup('buttonTrigger')"
     >
     </CardSearchPopup>
   </div>
@@ -23,6 +24,7 @@ const popupTrigger = ref({
   buttonTrigger: false,
 });
 const addCard = () => {
+  console.log("add");
   togglePopup("buttonTrigger");
   emit("onAddCard");
 };

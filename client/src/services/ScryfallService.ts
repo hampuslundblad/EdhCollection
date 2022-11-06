@@ -9,6 +9,7 @@ export default {
     const data: ScryfallGetCardResponse = {
       name: responseData.name,
       priceEur: responseData.prices.eur,
+      priceEurFoil: responseData.prices.eur_foil,
       foil: !responseData.nonfoil,
       imageUri: responseData.image_uris.normal,
       set: responseData.set,

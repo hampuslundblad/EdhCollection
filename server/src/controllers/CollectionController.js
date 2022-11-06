@@ -11,9 +11,6 @@ module.exports = {
         userId,
         req.body.collectionName
       );
-      if (!collection) {
-        throw "***Collection is undefined or null***";
-      }
       const card = await findCardInCollection(cardName, isFoil, collection.id);
       if (card) {
         await updateCardPriceAndQuantity(req, card);
@@ -96,8 +93,11 @@ const findCollectionByName = async (userId, collectionName) => {
       model: Card,
     },
   });
-
-  return collection;
+  if (!collection) {
+    throw "***Collection is undefined or null***";
+  } else {
+    return collection;
+  }
 };
 
 const updateCardPriceAndQuantity = async (req, card) => {

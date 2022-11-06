@@ -12,9 +12,9 @@
       <tr v-for="card in props.collection" :key="card" data-test="cardTable">
         <td>{{ card.name }}</td>
         <td>{{ card.quantity }}</td>
-        <td>{{ card.price + "$" }}</td>
-        <td>{{ card.foil }}</td>
+        <td>{{ card.price + " €" }}</td>
         <td>{{ card.set }}</td>
+        <td>{{ card.foil }}</td>
       </tr>
     </table>
   </div>
