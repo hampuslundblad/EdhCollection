@@ -24,7 +24,6 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
-const userCollection = ref();
 const error = ref();
 const collectionWanted = ref([]);
 const collectionHave = ref([]);
@@ -34,35 +33,31 @@ onMounted(async () => {
   await loadCollection();
 });
 async function updateCollection() {
-  console.log("emitted trigger");
   await loadCollection();
 }
 
 async function loadCollection() {
   try {
-    const collection = await fetchCollection();
-    parseAndSetCollectionvalues(collection);
+    const { haveCollection, wantedCollection } = await fetchCollections();
+    collectionHave.value = haveCollection.Cards;
+    collectionWanted.value = wantedCollection.Cards;
     isLoading.value = false;
   } catch (err) {
     error.value = err;
     console.log(error.value);
   }
 }
-async function fetchCollection() {
+async function fetchCollections() {
   const query = { userId: userStore.user.id };
   const response = await CollectionService.getAllCollections(query);
-  const collectionJSON = JSON.parse(response.data.userCollections);
-  return collectionJSON;
-}
-async function parseAndSetCollectionvalues(collection) {
-  userCollection.value = collection;
-  if (collection[0].name === "wanted") {
-    collectionWanted.value = collection[0].Cards;
-    collectionHave.value = collection[1].Cards;
-  } else {
-    collectionWanted.value = collection[1].Cards;
-    collectionHave.value = collection[0].Cards;
-  }
+  const haveCollectionJson = JSON.parse(response.data.haveCollection);
+  const wantedCollectionJson = JSON.parse(response.data.wantedCollection);
+  console.log(wantedCollectionJson);
+  console.log(haveCollectionJson);
+  return {
+    haveCollection: haveCollectionJson,
+    wantedCollection: wantedCollectionJson,
+  };
 }
 
 const popupTrigger = ref({
@@ -71,7 +66,6 @@ const popupTrigger = ref({
 });
 const togglePopup = async (trigger) => {
   popupTrigger.value[trigger] = !popupTrigger.value[trigger];
-  console.log("toggled");
 };
 </script>
 <style scoped>

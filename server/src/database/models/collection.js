@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       validate: {
-        isIn : [['wanted', 'have']]
-      }
+        isIn: [["wanted", "have"]],
+      },
     },
   });
   return Collection;

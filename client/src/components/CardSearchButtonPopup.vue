@@ -46,6 +46,7 @@ const handleAddCard = async () => {
     const response = await ScryfallService.searchCard(
       formValues.value.cardName
     );
+    console.log(formValues.value.selectedCollection.toLowerCase());
     await CollectionService.addCard({
       collectionName: formValues.value.selectedCollection.toLowerCase(),
       userId: userStore.user.id,
