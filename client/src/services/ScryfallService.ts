@@ -13,7 +13,7 @@ export default {
       imageUri: responseData.image_uris.normal,
       set: responseData.set,
     };
-    console.log(data);
+    setTimeout(function () {}, 1000);
     return data;
   },
 };

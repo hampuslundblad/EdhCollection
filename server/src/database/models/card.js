@@ -2,7 +2,6 @@ module.exports = (sequelize, DataTypes) => {
   const Card = sequelize.define("Card", {
     name: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
     },
     price: {

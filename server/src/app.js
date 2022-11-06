@@ -6,7 +6,7 @@ const { sequelize } = require("./database");
 const config = require("./config/config");
 
 const app = express();
-app.use(morgan("combine"));
+app.use(morgan("tiny"));
 app.use(bodyParser.json());
 app.use(cors());
 
