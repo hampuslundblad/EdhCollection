@@ -20,8 +20,6 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from "vue";
-
 const props = defineProps({
   title: String,
   collection: { type: Array, required: true },
