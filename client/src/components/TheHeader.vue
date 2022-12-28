@@ -3,10 +3,19 @@
     <router-link class="logo fs-600" to="/">
       <span class="logo light">EdhCollection</span>
     </router-link>
-    <button>Logout</button>
+    <router-link
+      class="fs-400 logout light ff-serif"
+      to="/logout"
+      v-if="userStore.isUserLoggedIn"
+    >
+      <span>Logout</span>
+    </router-link>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { useUserStore } from "../stores/user";
+const userStore = useUserStore();
+</script>
 <style scoped>
 @import "../assets/base.css";
 
@@ -21,6 +30,9 @@
 }
 .logo {
   border: none;
+  text-decoration: none;
+}
+.logout {
   text-decoration: none;
 }
 </style>
