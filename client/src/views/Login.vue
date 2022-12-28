@@ -14,9 +14,11 @@
       </form>
       <br />
       <span class="error">{{ error }}</span>
-      <button @click="login">Login</button>
+      <v-btn color="primary" @click="login">Login</v-btn>
+      <v-btn variant="outlined" color="secondary" @click="toRegister"
+        >Register</v-btn
+      >
     </div>
-    <router-link to="Register"> <button>Register</button></router-link>
   </div>
 </template>
 <script setup>
@@ -30,6 +32,10 @@ const email = ref("");
 const password = ref("");
 const error = ref("");
 const userStore = useUserStore();
+
+function toRegister() {
+  router.push("register");
+}
 
 async function login() {
   try {
@@ -51,6 +57,9 @@ async function login() {
 @import "../assets/base.css";
 .error {
   color: red;
+}
+.link {
+  text-decoration: none;
 }
 .login-container {
   display: flex;

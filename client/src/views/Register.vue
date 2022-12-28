@@ -23,7 +23,7 @@
       <span class="error">{{ error }}</span>
       <span class="success">{{ success }}</span>
 
-      <button @click="register">Register</button>
+      <v-btn @click="register" color="primary">Register</v-btn>
     </div>
   </div>
 </template>
