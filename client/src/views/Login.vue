@@ -2,19 +2,25 @@
   <div class="layout">
     <div class="login-container">
       <h1 class="ff-serif">Login</h1>
-      <form>
-        <input type="email" name="email" placeholder="email" v-model="email" />
+      <v-alert v-if="apiError" class="error" type="error">{{ error }}</v-alert>
+
+      <v-form>
+        <v-text-field
+          type="email"
+          name="email"
+          placeholder="email"
+          v-model="email"
+        />
         <br />
-        <input
+        <v-text-field
           type="password"
           name="password"
           placeholder="password"
           v-model="password"
         />
-      </form>
+      </v-form>
       <br />
-      <span class="error">{{ error }}</span>
-      <v-btn color="primary" @click="login">Login</v-btn>
+      <v-btn class="button__login" color="primary" @click="login">Login</v-btn>
       <v-btn variant="outlined" color="secondary" @click="toRegister"
         >Register</v-btn
       >
@@ -31,6 +37,7 @@ const router = useRouter();
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const apiError = ref(false);
 const userStore = useUserStore();
 
 function toRegister() {
@@ -49,6 +56,7 @@ async function login() {
     router.push("/user");
   } catch (err) {
     console.log("ERROR", err);
+    apiError.value = true;
     error.value = err.response.data.error;
   }
 }
@@ -56,10 +64,13 @@ async function login() {
 <style scoped>
 @import "../assets/base.css";
 .error {
-  color: red;
+  margin: 1rem 0 1rem 0;
 }
 .link {
   text-decoration: none;
+}
+.button__login {
+  margin-bottom: 0.5rem;
 }
 .login-container {
   display: flex;

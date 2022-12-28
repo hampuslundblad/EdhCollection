@@ -2,10 +2,12 @@
   <main class="ff-sans-normal">
     <h1 class="">Welcome to EdhCollection {{ userStore.user.email }}!</h1>
     <hr class="divider" />
-    <CardSearchPopupButton
-      text="Add card to collection"
-      @onAddCard="updateCollection"
-    />
+    <v-btn @click="togglePopup" variant="elevated" color="primary">
+      Add card</v-btn
+    >
+    <Popup v-if="showPopup" @onClose="togglePopup">
+      <CardSearchForm @onAddCard="updateCollection" @onClose="togglePopup" />
+    </Popup>
     <div v-if="!isLoading">
       <CollectionTable title="Wanted" :collection="collectionWanted" />
       <CollectionTable title="Have" :collection="collectionHave" />
@@ -16,9 +18,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import CollectionTable from "../components/CollectionTable.vue";
-import CardSearchPopupButton from "../components/CardSearchButton.vue";
 import { useUserStore } from "../stores/user.js";
 import CollectionService from "../services/CollectionService.ts";
+import Popup from "../components/Popup.vue";
+import CardSearchForm from "../components/CardSearchForm.vue";
 const props = defineProps({
   title: String,
 });
@@ -27,7 +30,8 @@ const userStore = useUserStore();
 const error = ref();
 const collectionWanted = ref([]);
 const collectionHave = ref([]);
-const isLoading = ref(true);
+let isLoading = ref(true);
+let showPopup = ref(false);
 
 onMounted(async () => {
   await loadCollection();
@@ -52,8 +56,6 @@ async function fetchCollections() {
   const response = await CollectionService.getAllCollections(query);
   const haveCollectionJson = JSON.parse(response.data.haveCollection);
   const wantedCollectionJson = JSON.parse(response.data.wantedCollection);
-  console.log(wantedCollectionJson);
-  console.log(haveCollectionJson);
   return {
     haveCollection: haveCollectionJson,
     wantedCollection: wantedCollectionJson,
@@ -64,8 +66,8 @@ const popupTrigger = ref({
   buttonTrigger: false,
   timedTrigger: false,
 });
-const togglePopup = async (trigger) => {
-  popupTrigger.value[trigger] = !popupTrigger.value[trigger];
+const togglePopup = () => {
+  showPopup.value = !showPopup.value;
 };
 </script>
 <style scoped>

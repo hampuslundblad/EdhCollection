@@ -3,22 +3,22 @@
     <div class="register-container">
       <h1>Register</h1>
       <div>
-        <form autocomplete="off">
-          <input
+        <v-form autocomplete="off">
+          <v-text-field
             type="email"
             name="email"
             placeholder="email"
             v-model="email"
           />
           <br />
-          <input
+          <v-text-field
             type="password"
             name="password"
             placeholder="password"
             v-model="password"
           />
           <br />
-        </form>
+        </v-form>
       </div>
       <span class="error">{{ error }}</span>
       <span class="success">{{ success }}</span>
@@ -36,7 +36,7 @@ const password = ref("");
 const error = ref("");
 const success = ref("");
 const userStore = useUserStore();
-
+const apiError = ref(false);
 async function register() {
   try {
     const response = await AuthenticationService.register({
@@ -50,6 +50,7 @@ async function register() {
   } catch (err) {
     error.value = err.response.data.error;
     success.value = "";
+    apiError.value = true;
   }
 }
 </script>

@@ -1,22 +1,27 @@
 <template>
   <div>
     <h1>{{ props.title }}</h1>
-    <table id="card">
-      <tr>
-        <th>Card Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Set</th>
-        <th>Foil</th>
-      </tr>
-      <tr v-for="card in props.collection" :key="card" data-test="cardTable">
-        <td>{{ card.name }}</td>
-        <td>{{ card.quantity }}</td>
-        <td>{{ card.price + " €" }}</td>
-        <td>{{ card.set }}</td>
-        <td>{{ card.foil }}</td>
-      </tr>
-    </table>
+    <div class="image-hover">Hello</div>
+    <v-table id="cardTable">
+      <thead>
+        <tr>
+          <th class="text-left">Card Name</th>
+          <th class="text-left">Quantity</th>
+          <th class="text-left">Price</th>
+          <th class="text-left">Set</th>
+          <th class="text-left">Foil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="card in props.collection" :key="card" data-test="cardTable">
+          <td>{{ card.name }}</td>
+          <td>{{ card.quantity }}</td>
+          <td>{{ card.price + " €" }}</td>
+          <td>{{ card.set }}</td>
+          <td>{{ card.foil }}</td>
+        </tr>
+      </tbody>
+    </v-table>
   </div>
 </template>
 <script setup>
@@ -26,31 +31,37 @@ const props = defineProps({
 });
 </script>
 <style scoped>
-#card {
+.row:hover .image-hover {
+  display: block;
+}
+.image-hover {
+  display: none;
+}
+
+#cardTable {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#card td,
-#card th {
-  border: 1px solid #ddd;
+#cardTable td,
+#cardTable th {
   padding: 8px;
 }
 
-#card tr:nth-child(even) {
+#cardTable tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-#card tr:hover {
+#cardTable tr:hover {
   background-color: #ddd;
 }
 
-#card th {
+#cardTable th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04aa6d;
+  background-color: #08a12b;
   color: white;
 }
 </style>

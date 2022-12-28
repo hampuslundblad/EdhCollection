@@ -1,7 +1,20 @@
 import { Db } from "./Api.mjs";
+type AddCardRequest = {
+  collectionName: string;
+  userId: string;
+  card: {
+    name: string;
+    price: string;
+    set: string;
+    quantity: string;
+    foil: string;
+    imageUrl: string;
+  };
+};
 
 export default {
-  addCard(query) {
+  addCard(query: AddCardRequest) {
+    console.log(query);
     return Db().post("collection/card", query);
   },
   async getAllCollections(query) {
