@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <Header></Header>
-    <router-view />
-  </div>
+  <v-layout>
+    <v-main>
+      <Header></Header>
+
+      <router-view />
+    </v-main>
+  </v-layout>
 </template>
 <script setup>
 import Header from "./components/TheHeader.vue";
