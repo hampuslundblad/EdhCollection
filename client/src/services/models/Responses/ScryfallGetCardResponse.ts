@@ -1,4 +1,4 @@
-type ScryfallGetCardResponse {
+export type ScryfallGetCardResponse {
     cardName : String,
     
 }

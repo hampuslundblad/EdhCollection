@@ -5,6 +5,9 @@
       Something went wrong when adding your card, please try again
       later.</v-alert
     >
+    <v-alert v-if="notFound" color="error">
+      Sorry, we could not find a card with that name.</v-alert
+    >
     <v-form>
       <p>Collection</p>
       <v-select
@@ -40,6 +43,7 @@ const formValues = ref({
   selectedCollection: "Wanted",
   selectedFoil: "No",
 });
+const notFound = ref(false);
 const apiError = ref(false);
 
 const userStore = useUserStore();
@@ -59,7 +63,6 @@ const getCardInformation = async (cardName) => {
   const formInfo = getFormValues();
   const scryfallInfo = await getCardInformationScryfall(cardName);
   if (!scryfallInfo) {
-    apiError.value = true;
     return undefined;
   }
   const cardInfo = { ...formInfo, ...scryfallInfo };
@@ -68,8 +71,12 @@ const getCardInformation = async (cardName) => {
 };
 const getCardInformationScryfall = async (cardName) => {
   try {
-    const { priceEurFoil, priceEur, name, set, imageUri } =
+    const { priceEurFoil, priceEur, name, set, imageUri, status } =
       await ScryfallService.searchCard(cardName);
+    if (status == 404) {
+      notFound.value = true;
+      return undefined;
+    }
     console.log(set);
     return {
       priceEurFoil: priceEurFoil,
@@ -79,7 +86,11 @@ const getCardInformationScryfall = async (cardName) => {
       imageUri: imageUri,
     };
   } catch (error) {
-    console.log(error);
+    if (error.response.status == 404) {
+      notFound.value = true;
+    } else {
+      apiError.value = true;
+    }
   }
   return undefined;
 };

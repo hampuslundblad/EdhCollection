@@ -2,6 +2,14 @@
   <div class="layout">
     <div class="register-container">
       <h1>Register</h1>
+      <v-alert
+        v-if="success"
+        color="success"
+        class="alert__success"
+        text="You have been registered"
+      />
+      <v-alert v-if="apiError" color="error" class="error">{{ error }}</v-alert>
+
       <div>
         <v-form autocomplete="off">
           <v-text-field
@@ -20,8 +28,6 @@
           <br />
         </v-form>
       </div>
-      <span class="error">{{ error }}</span>
-      <span class="success">{{ success }}</span>
 
       <v-btn @click="register" color="primary">Register</v-btn>
     </div>
@@ -31,12 +37,15 @@
 import { ref } from "vue";
 import AuthenticationService from "../services/AuthenticationService";
 import { useUserStore } from "../stores/user";
-const email = ref("");
-const password = ref("");
-const error = ref("");
-const success = ref("");
+let email = ref("");
+let password = ref("");
+let error = ref(
+  "The password provided failed to match the following rules: 1. It must contain ONLY the following characters: lower case, upper case, numerics. 2. It must be at least 8 chracters in length and not greater than 32"
+);
+let success = ref(false);
 const userStore = useUserStore();
-const apiError = ref(false);
+let apiError = ref(false);
+
 async function register() {
   try {
     const response = await AuthenticationService.register({
@@ -45,12 +54,14 @@ async function register() {
     });
     userStore.setUser(response.data.user);
     userStore.setToken(response.data.token);
-    success.value = "You've been registered!";
+    success.value = true;
+    apiError.value = false;
     error.value = "";
+    router.push("/login");
   } catch (err) {
-    error.value = err.response.data.error;
-    success.value = "";
+    success.value = false;
     apiError.value = true;
+    console.log(error.value);
   }
 }
 </script>
@@ -59,8 +70,8 @@ async function register() {
 .error {
   color: red;
 }
-.success {
-  color: green;
+.alert_success {
+  margin: 0.5rem 1rem 0.5rem 0;
 }
 .register-container {
   display: flex;

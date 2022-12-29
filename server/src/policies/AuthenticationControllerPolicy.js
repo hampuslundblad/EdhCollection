@@ -16,12 +16,7 @@ module.exports = {
           break;
         case "password":
           res.status(400).send({
-            error: `The password provided failed to match the following rules:
-                        <br> 
-                        1. Ut must contain ONLY the following characters: lower case, upper case, numerics.
-                        <br>
-                        2. It must be at least 8 chracters in length and not greater than 32
-                        `,
+            error: `Something went wrong`,
           });
           break;
         default:
