@@ -11,31 +11,35 @@ function jwtSignUser(user) {
 
 module.exports = {
   async register(req, res) {
+    console.log(req.body);
+    const user = await User.findOne({ where: { email: req.body.email } });
+    console.log(user);
+    if (user) {
+      res.status(400).send({
+        error: "User already exists",
+        user,
+      });
+      return;
+    }
     try {
       const user = await User.create(req.body);
       const userJson = user.toJSON();
-      await Collection.create({
-        UserId: user.id,
-        name: "wanted",
-      });
-      await Collection.create({
-        UserId: user.id,
-        name: "have",
-      });
+      createCollectionsForUser(user.id);
       res.send({
         user: user.toJSON(),
         token: jwtSignUser(userJson),
       });
     } catch (err) {
       console.log(err);
-      res.status(400).send({
-        error: "This email account is already in use.",
+      res.status(500).send({
+        error: "Something went wrong, please try again later.",
       });
     }
   },
 
   async login(req, res) {
     try {
+      console.log(req.body);
       const { email, password } = req.body;
       const user = await User.findOne({
         where: {
@@ -68,3 +72,13 @@ module.exports = {
     }
   },
 };
+async function createCollectionsForUser(userId) {
+  await Collection.create({
+    UserId: userId,
+    name: "wanted",
+  });
+  await Collection.create({
+    UserId: userId,
+    name: "have",
+  });
+}

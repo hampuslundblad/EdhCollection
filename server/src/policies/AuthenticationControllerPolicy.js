@@ -16,7 +16,7 @@ module.exports = {
           break;
         case "password":
           res.status(400).send({
-            error: `Something went wrong`,
+            error: `Please try another password`,
           });
           break;
         default:
