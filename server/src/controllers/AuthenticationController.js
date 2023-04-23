@@ -9,69 +9,68 @@ function jwtSignUser(user) {
   });
 }
 
-module.exports = {
-  async register(req, res) {
+export async function register(req, res) {
+  console.log(req.body);
+  const user = await User.findOne({ where: { email: req.body.email } });
+  console.log(user);
+  if (user) {
+    res.status(400).send({
+      error: "User already exists",
+      user,
+    });
+    return;
+  }
+  try {
+    const user = await User.create(req.body);
+    const userJson = user.toJSON();
+    createCollectionsForUser(user.id);
+    res.send({
+      user: user.toJSON(),
+      token: jwtSignUser(userJson),
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: "Something went wrong, please try again later.",
+    });
+  }
+}
+
+export async function login(req, res) {
+  try {
     console.log(req.body);
-    const user = await User.findOne({ where: { email: req.body.email } });
-    console.log(user);
-    if (user) {
-      res.status(400).send({
-        error: "User already exists",
-        user,
-      });
-      return;
-    }
-    try {
-      const user = await User.create(req.body);
-      const userJson = user.toJSON();
-      createCollectionsForUser(user.id);
-      res.send({
-        user: user.toJSON(),
-        token: jwtSignUser(userJson),
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        error: "Something went wrong, please try again later.",
+    const { email, password } = req.body;
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      return res.status(403).send({
+        error: "The login information was incorrect",
       });
     }
-  },
+    const isPasswordValid = await user.comparePassword(password);
 
-  async login(req, res) {
-    try {
-      console.log(req.body);
-      const { email, password } = req.body;
-      const user = await User.findOne({
-        where: {
-          email: email,
-        },
-      });
-      if (!user) {
-        return res.status(403).send({
-          error: "The login information was incorrect",
-        });
-      }
-      const isPasswordValid = await user.comparePassword(password);
-
-      if (!isPasswordValid) {
-        return res.status(403).send({
-          error: "The login information was incorrect",
-        });
-      }
-
-      const userJson = user.toJSON();
-      return res.send({
-        user: userJson,
-        token: jwtSignUser(userJson),
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        error: "An error has occured trying to login",
+    if (!isPasswordValid) {
+      return res.status(403).send({
+        error: "The login information was incorrect",
       });
     }
-  },
-};
+
+    const userJson = user.toJSON();
+    return res.send({
+      user: userJson,
+      token: jwtSignUser(userJson),
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: "An error has occured trying to login",
+    });
+  }
+}
+
 async function createCollectionsForUser(userId) {
   await Collection.create({
     UserId: userId,

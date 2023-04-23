@@ -1,53 +1,51 @@
 const { User, Collection, Card } = require("../database");
 const card = require("../database/models/card");
 
-module.exports = {
-  async addCardToCollection(req, res) {
-    const cardName = req.body.card.name;
-    const isFoil = req.body.card.foil;
-    try {
-      const userId = getUserId(req);
-      const collection = await findCollectionByName(
-        userId,
-        req.body.collectionName
-      );
-      const card = await findCardInCollection(cardName, isFoil, collection.id);
-      if (card) {
-        await updateCardPriceAndQuantity(req, card);
-      } else {
-        const _ = await createCard(req, collection.id);
-      }
-      return res.send({
-        message: "Successfully added card to the collection",
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        error:
-          "An error has occured while trying to add a card to the collection.",
-      });
-    }
-  },
-  async findAll(req, res) {
+export async function addCardToCollection(req, res) {
+  const cardName = req.body.card.name;
+  const isFoil = req.body.card.foil;
+  try {
     const userId = getUserId(req);
-    try {
-      const haveCollection = await findCollectionByName(userId, "have");
-      const wantedCollection = await findCollectionByName(userId, "wanted");
-
-      const wantedCollectionJson = JSON.stringify(wantedCollection);
-      const haveCollectionJson = JSON.stringify(haveCollection);
-      res.send({
-        wantedCollection: wantedCollectionJson,
-        haveCollection: haveCollectionJson,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        error: "An error occured while fetching your collections",
-      });
+    const collection = await findCollectionByName(
+      userId,
+      req.body.collectionName
+    );
+    const card = await findCardInCollection(cardName, isFoil, collection.id);
+    if (card) {
+      await updateCardPriceAndQuantity(req, card);
+    } else {
+      const _ = await createCard(req, collection.id);
     }
-  },
-};
+    return res.send({
+      message: "Successfully added card to the collection",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error:
+        "An error has occured while trying to add a card to the collection.",
+    });
+  }
+}
+export async function findAll(req, res) {
+  const userId = getUserId(req);
+  try {
+    const haveCollection = await findCollectionByName(userId, "have");
+    const wantedCollection = await findCollectionByName(userId, "wanted");
+
+    const wantedCollectionJson = JSON.stringify(wantedCollection);
+    const haveCollectionJson = JSON.stringify(haveCollection);
+    res.send({
+      wantedCollection: wantedCollectionJson,
+      haveCollection: haveCollectionJson,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: "An error occured while fetching your collections",
+    });
+  }
+}
 
 /*** Helpers  ****/
 const findCardInCollection = async (cardName, isFoil, collectionId) => {
