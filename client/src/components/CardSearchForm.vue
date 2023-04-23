@@ -2,10 +2,6 @@
   <div class="form__add-card">
     <h2>Search for a card</h2>
     <v-alert v-if="apiError" color="error">
-      Something went wrong when adding your card, please try again
-      later.</v-alert
-    >
-    <v-alert v-if="notFound" color="error">
       Sorry, we could not find a card with that name.</v-alert
     >
     <v-form>
@@ -34,9 +30,8 @@
 
 <script setup>
 import { ref } from "vue";
-import ScryfallService from "../services/ScryfallService.ts";
-import CollectionService from "../services/CollectionService.ts";
 import { useUserStore } from "../stores/user";
+import { addCardToDatatbase, getCardInformationScryfall } from "../utils/utils";
 const formValues = ref({
   cardName: "",
   quantity: "",
@@ -53,7 +48,12 @@ const emits = defineEmits(["onAddCard", "onClose"]);
 const handleAddCard = async () => {
   const cardInfo = await getCardInformation(formValues.value.cardName);
   if (cardInfo) {
-    await addCardToDatatbase(cardInfo);
+    await addCardToDatatbase(
+      cardInfo,
+      formValues.value.selectedFoil,
+      userStore.user.id,
+      userStore.token
+    );
     emits("onAddCard");
     emits("onClose");
   }
@@ -63,37 +63,14 @@ const getCardInformation = async (cardName) => {
   const formInfo = getFormValues();
   const scryfallInfo = await getCardInformationScryfall(cardName);
   if (!scryfallInfo) {
+    apiError.value = true;
     return undefined;
   }
   const cardInfo = { ...formInfo, ...scryfallInfo };
 
   return { ...formInfo, ...scryfallInfo };
 };
-const getCardInformationScryfall = async (cardName) => {
-  try {
-    const { priceEurFoil, priceEur, name, set, imageUri, status } =
-      await ScryfallService.searchCard(cardName);
-    if (status == 404) {
-      notFound.value = true;
-      return undefined;
-    }
-    console.log(set);
-    return {
-      priceEurFoil: priceEurFoil,
-      priceEur: priceEur,
-      name: name,
-      set: set,
-      imageUri: imageUri,
-    };
-  } catch (error) {
-    if (error.response.status == 404) {
-      notFound.value = true;
-    } else {
-      apiError.value = true;
-    }
-  }
-  return undefined;
-};
+
 const getFormValues = () => {
   return {
     name: formValues.value.cardName,
@@ -101,34 +78,6 @@ const getFormValues = () => {
     quantity: formValues.value.quantity,
     foil: formValues.value.selectedFoil,
   };
-};
-
-const addCardToDatatbase = async (cardInfo) => {
-  let price;
-  if (formValues.value.selectedFoil === "Yes") {
-    price = cardInfo.priceEurFoil;
-  } else {
-    price = cardInfo.priceEur;
-  }
-  try {
-    const response = await CollectionService.addCard(
-      {
-        collectionName: cardInfo.collectionName,
-        userId: userStore.user.id,
-        card: {
-          name: cardInfo.name,
-          price: price,
-          set: cardInfo.set,
-          quantity: cardInfo.quantity,
-          foil: cardInfo.foil,
-          imageUrl: cardInfo.imageUri,
-        },
-      },
-      userStore.token
-    );
-  } catch (error) {
-    apiError.value = true;
-  }
 };
 </script>
 <style scoped>
