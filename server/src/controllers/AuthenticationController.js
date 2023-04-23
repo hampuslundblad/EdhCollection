@@ -11,9 +11,7 @@ function jwtSignUser(user) {
 
 module.exports = {
   async register(req, res) {
-    console.log(req.body);
     const user = await User.findOne({ where: { email: req.body.email } });
-    console.log(user);
     if (user) {
       res.status(400).send({
         error: "User already exists",
@@ -39,7 +37,6 @@ module.exports = {
 
   async login(req, res) {
     try {
-      console.log(req.body);
       const { email, password } = req.body;
       const user = await User.findOne({
         where: {

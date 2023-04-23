@@ -53,7 +53,10 @@ async function loadCollection() {
 }
 async function fetchCollections() {
   const query = { userId: userStore.user.id };
-  const response = await CollectionService.getAllCollections(query);
+  const response = await CollectionService.getAllCollections(
+    query,
+    userStore.token
+  );
   const haveCollectionJson = JSON.parse(response.data.haveCollection);
   const wantedCollectionJson = JSON.parse(response.data.wantedCollection);
   return {

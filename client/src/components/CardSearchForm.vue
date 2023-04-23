@@ -111,18 +111,21 @@ const addCardToDatatbase = async (cardInfo) => {
     price = cardInfo.priceEur;
   }
   try {
-    const response = await CollectionService.addCard({
-      collectionName: cardInfo.collectionName,
-      userId: userStore.user.id,
-      card: {
-        name: cardInfo.name,
-        price: price,
-        set: cardInfo.set,
-        quantity: cardInfo.quantity,
-        foil: cardInfo.foil,
-        imageUrl: cardInfo.imageUri,
+    const response = await CollectionService.addCard(
+      {
+        collectionName: cardInfo.collectionName,
+        userId: userStore.user.id,
+        card: {
+          name: cardInfo.name,
+          price: price,
+          set: cardInfo.set,
+          quantity: cardInfo.quantity,
+          foil: cardInfo.foil,
+          imageUrl: cardInfo.imageUri,
+        },
       },
-    });
+      userStore.token
+    );
   } catch (error) {
     apiError.value = true;
   }

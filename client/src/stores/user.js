@@ -3,7 +3,7 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       isUserLoggedIn: false,
-      token: null,
+      token: JSON.parse(localStorage.getItem("token")),
       user: JSON.parse(localStorage.getItem("user")),
       userName: "default user",
     };
@@ -12,6 +12,7 @@ export const useUserStore = defineStore("user", {
     setToken(token) {
       this.token = token;
       this.isUserLoggedIn = !!token;
+      localStorage.setItem("token", JSON.stringify(token));
     },
     setUser(user) {
       this.user = user;

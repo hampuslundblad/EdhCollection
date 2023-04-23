@@ -50,7 +50,6 @@ async function login() {
       email: email.value,
       password: password.value,
     });
-    console.log(response);
     userStore.setUser(response.data.user);
     userStore.setToken(response.data.token);
     router.push("/user");

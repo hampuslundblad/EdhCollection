@@ -13,13 +13,12 @@ type AddCardRequest = {
 };
 
 export default {
-  addCard(query: AddCardRequest) {
-    console.log(query);
-    return Db().post("collection/card", query);
+  addCard(query: AddCardRequest, token) {
+    return Db(token).post("collection/card", query);
   },
-  async getAllCollections(query) {
+  async getAllCollections(query, token) {
     const { userId } = query;
-    const response = await Db().get(`collection/${userId}`);
+    const response = await Db(token).get(`collection/${userId}`);
     return response;
   },
 };
